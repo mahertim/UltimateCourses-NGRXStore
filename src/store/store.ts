@@ -1,10 +1,11 @@
 export class Store {
   // private subscribers: Function[] = [];
-  // private reducers: { [key: string]: Function } = {};
+  private reducers: { [key: string]: Function } = {};
   private state: { [key: string]: any } = {};
 
-  constructor(_reducers = {}, initialState = {}) {
-    this.state = initialState;
+  constructor(reducers = {}, initialState = {}) {
+    this.reducers = reducers;
+    this.state = this.reduce(initialState, {});
   }
 
   get value() {
@@ -12,10 +13,17 @@ export class Store {
   }
 
   dispatch(action: { type: string; payload: any }) {
-    this.state = {
-      ...this.state,
-      todos: [...this.state.todos, action.payload],
-    };
-    console.log(this.state);
+    this.state = this.reduce(this.state, action);
+  }
+
+  private reduce(
+    state: { [key: string]: any },
+    action: { type?: string; payload?: any },
+  ) {
+    const newState: { [key: string]: any } = {};
+    for (const prop in this.reducers) {
+      newState[prop] = this.reducers[prop](state[prop], action);
+    }
+    return newState;
   }
 }
