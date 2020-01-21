@@ -1,9 +1,18 @@
+import * as fromStore from './store';
+
 // import { renderTodos } from './utils';
 
 const input = document.querySelector('input') as HTMLInputElement;
 const button = document.querySelector('button') as HTMLButtonElement;
-const destroy = document.querySelector('.unsubscribe') as HTMLButtonElement;
+// const destroy = document.querySelector('.unsubscribe') as HTMLButtonElement;
 const todoList = document.querySelector('.todos') as HTMLLIElement;
+
+const store = new fromStore.Store(
+  {},
+  {
+    todos: [{ label: 'Eat Pizza', complete: false }],
+  },
+);
 
 button.addEventListener(
   'click',
@@ -18,6 +27,8 @@ button.addEventListener(
   },
   false,
 );
+
+console.log(store.value);
 
 todoList.addEventListener('click', function(event) {
   const target = event.target as HTMLButtonElement;
