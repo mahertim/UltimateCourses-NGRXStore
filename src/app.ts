@@ -1,10 +1,9 @@
 import * as fromStore from './store';
-
-// import { renderTodos } from './utils';
+import { renderTodos } from './utils';
 
 const input = document.querySelector('input') as HTMLInputElement;
 const button = document.querySelector('button') as HTMLButtonElement;
-// const destroy = document.querySelector('.unsubscribe') as HTMLButtonElement;
+const destroy = document.querySelector('.unsubscribe') as HTMLButtonElement;
 const todoList = document.querySelector('.todos') as HTMLLIElement;
 
 const reducers = {
@@ -25,14 +24,16 @@ button.addEventListener(
       payload: payload,
     });
 
-    console.log(store.value);
-
     input.value = '';
   },
   false,
 );
 
-console.log(store.value);
+const unsubscribe = store.subscribe((state: { [key: string]: any }) => {
+  renderTodos(state.todos.data);
+});
+
+destroy.addEventListener('click', unsubscribe, false);
 
 todoList.addEventListener('click', function(event) {
   const target = event.target as HTMLButtonElement;
@@ -40,3 +41,7 @@ todoList.addEventListener('click', function(event) {
     console.log(target);
   }
 });
+
+store.subscribe((state: { [key: string]: any }) =>
+  console.log('STATE:::', state),
+);
