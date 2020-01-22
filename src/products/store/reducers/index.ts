@@ -4,7 +4,7 @@ import {
   createSelector,
 } from '@ngrx/store';
 
-import * as fromPizzas from './pizza.reducer';
+import * as fromPizzas from './pizzas.reducer';
 import { PizzasAction } from '../actions/pizzas.action';
 
 export interface ProductsState {
