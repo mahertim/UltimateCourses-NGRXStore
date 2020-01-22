@@ -17,11 +17,12 @@ import { Topping } from '../../models/topping.model';
 export class ProductItemComponent implements OnInit {
   pizza$: Observable<Pizza> = of({});
   visualize: Pizza = {};
-  toppings: Topping[] = [];
+  toppings$: Observable<Topping[]> = of([]);
 
   constructor(private store: Store<fromStore.ProductsState>) {}
 
   ngOnInit() {
+    this.store.dispatch(new fromStore.LoadToppings());
     this.pizza$ = this.store.select(fromStore.getSelectedPizza);
   }
 
