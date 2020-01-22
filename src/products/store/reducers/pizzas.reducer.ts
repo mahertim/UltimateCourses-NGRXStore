@@ -2,6 +2,8 @@ import * as fromPizzas from '../actions/pizzas.action';
 
 import { Pizza } from '../../models/pizza.model';
 
+import { mapToEntities } from '../../util';
+
 export interface PizzaState {
   entities: { [id: number]: Pizza };
   loaded: boolean;
@@ -28,17 +30,7 @@ export function reducer(
 
     case fromPizzas.LOAD_PIZZAS_SUCCESS: {
       const pizzas = action.payload;
-
-      const entities = pizzas.reduce(
-        (theEntities: { [id: number]: Pizza }, pizza: Pizza) => {
-          return {
-            ...theEntities,
-            [pizza.id as number]: pizza,
-          };
-        },
-        { ...state.entities },
-      );
-
+      const entities = mapToEntities(pizzas, state.entities);
       return {
         ...state,
         loading: false,
@@ -47,15 +39,19 @@ export function reducer(
       };
     }
 
-    case fromPizzas.LOAD_PIZZAS_SUCCESS: {
+    case fromPizzas.LOAD_PIZZAS_FAIL: {
       return {
         ...state,
         loading: false,
         loaded: false,
       };
     }
+
+    default: {
+      return { ...state };
+    }
   }
-  return state;
+  return { ...state };
 }
 
 export const getPizzasEntities = (state: PizzaState) => state.entities;
