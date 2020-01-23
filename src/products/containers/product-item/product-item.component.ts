@@ -3,6 +3,7 @@ import { Component, OnInit /* ChangeDetectionStrategy */ } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import * as fromStore from '../../store';
 
@@ -16,19 +17,28 @@ import { Topping } from '../../models/topping.model';
 })
 export class ProductItemComponent implements OnInit {
   pizza$: Observable<Pizza> = of({});
-  visualize: Pizza = {};
+  visualize$: Observable<Pizza> = of({});
   toppings$: Observable<Topping[]> = of([]);
 
   constructor(private store: Store<fromStore.ProductsState>) {}
 
   ngOnInit() {
-    this.store.dispatch(new fromStore.LoadToppings());
-    this.pizza$ = this.store.select(fromStore.getSelectedPizza);
+    this.pizza$ = this.store.select(fromStore.getSelectedPizza).pipe(
+      tap((pizza: Pizza) => {
+        (pizza as Pizza | null) = pizza ? pizza : null;
+        const pizzaExists = !!(pizza && pizza.toppings);
+        const toppings: number[] = pizzaExists
+          ? (pizza.toppings as Topping[]).map((topping) => topping.id as number)
+          : [];
+        this.store.dispatch(new fromStore.VisualizeToppings(toppings));
+      }),
+    );
     this.toppings$ = this.store.select(fromStore.getAllToppings);
+    this.visualize$ = this.store.select(fromStore.getPizzaVisualized);
   }
 
   onSelect(event: number[]) {
-    console.log(event);
+    this.store.dispatch(new fromStore.VisualizeToppings(event));
   }
 
   onCreate(_event: Pizza) {}
