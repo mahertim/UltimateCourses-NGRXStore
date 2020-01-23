@@ -2,7 +2,7 @@ import * as fromPizzas from '../actions/pizzas.action';
 
 import { Pizza } from '../../models/pizza.model';
 
-import { mapToEntities } from '../../util';
+import { mapToEntities } from '../../util/map-to-entities.helper';
 
 export interface PizzaState {
   entities: { [id: number]: Pizza };

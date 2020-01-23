@@ -2,7 +2,7 @@ import * as fromToppings from '../actions/toppings.action';
 
 import { Topping } from '../../models/topping.model';
 
-import { mapToEntities } from '../../util';
+import { mapToEntities } from '../../util/map-to-entities.helper';
 
 export interface ToppingsState {
   entities: { [id: number]: Topping };
