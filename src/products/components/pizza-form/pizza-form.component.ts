@@ -5,7 +5,7 @@ import {
   EventEmitter,
   OnChanges,
   SimpleChanges,
-  /* ChangeDetectionStrategy, */
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   FormControl,
@@ -22,6 +22,7 @@ import { Topping } from '../../models/topping.model';
 
 @Component({
   selector: 'app-pizza-form',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['pizza-form.component.scss'],
   templateUrl: 'pizza-form.component.html',
 })

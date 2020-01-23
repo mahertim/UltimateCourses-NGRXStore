@@ -1,4 +1,4 @@
-import { Component, OnInit /* ChangeDetectionStrategy */ } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
@@ -12,6 +12,7 @@ import { Topping } from '../../models/topping.model';
 
 @Component({
   selector: 'app-product-item',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['product-item.component.scss'],
   templateUrl: 'product-item.component.html',
 })
