@@ -47,6 +47,19 @@ export function reducer(
       };
     }
 
+    case fromPizzas.CREATE_PIZZA_SUCCESS: {
+      const pizza = action.payload;
+      const entities = {
+        ...state.entities,
+        [pizza.id as number]: pizza,
+      };
+
+      return {
+        ...state,
+        entities,
+      };
+    }
+
     default: {
       return { ...state };
     }

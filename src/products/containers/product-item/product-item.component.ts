@@ -41,11 +41,16 @@ export class ProductItemComponent implements OnInit {
     this.store.dispatch(new fromStore.VisualizeToppings(event));
   }
 
-  onCreate(_event: Pizza) {}
+  onCreate(event: Pizza) {
+    this.store.dispatch(new fromStore.CreatePizza(event));
+  }
 
-  onUpdate(_event: Pizza) {}
+  onUpdate(event: Pizza) {
+    console.log(event);
+  }
 
-  onRemove(_event: Pizza) {
+  onRemove(event: Pizza) {
+    console.log(event);
     const remove = window.confirm('Are you sure?');
     if (remove) {
     }

@@ -25,4 +25,15 @@ export class PizzasEffects {
       );
     }),
   );
+
+  @Effect()
+  createPizza$ = this.actions$.pipe(ofType(pizzaActions.CREATE_PIZZA)).pipe(
+    map((action: pizzaActions.CreatePizza) => action.payload),
+    switchMap((pizza) => {
+      return this.pizzaService.createPizza(pizza).pipe(
+        map((thePizza) => new pizzaActions.CreatePizzaSuccess(thePizza)),
+        catchError((error) => of(new pizzaActions.CreatePizzaFail(error))),
+      );
+    }),
+  );
 }
